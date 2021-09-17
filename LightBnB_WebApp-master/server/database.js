@@ -27,16 +27,6 @@ const getUserWithEmail = function(email) {
     .catch((err) => {
       return null;
     });
-  // let user;
-  // for (const userId in users) {
-  //   user = users[userId];
-  //   if (user.email.toLowerCase() === email.toLowerCase()) {
-  //     break;
-  //   } else {
-  //     user = null;
-  //   }
-  // }
-  // return Promise.resolve(user);
 }
 exports.getUserWithEmail = getUserWithEmail;
 
@@ -77,10 +67,6 @@ const addUser =  function(user) {
     .catch((err) => {
       return null;
     });
-  // const userId = Object.keys(users).length + 1;
-  // user.id = userId;
-  // users[userId] = user;
-  // return Promise.resolve(user);
 }
 exports.addUser = addUser;
 
@@ -103,7 +89,6 @@ const getAllReservations = function(guest_id, limit = 10) {
     .catch((err) => {
       return null;
     });
-  // return getAllProperties(null, 2);
 }
 exports.getAllReservations = getAllReservations;
 
@@ -116,24 +101,18 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 
-//  const getAllProperties = function(options, limit = 10) {
-//   const limitedProperties = {};
-//   for (let i = 1; i <= limit; i++) {
-//     limitedProperties[i] = properties[i];
-//   }
-//   return Promise.resolve(limitedProperties);
-// }
+
  const getAllProperties = (options, limit = 10) => {
-  // 1
+
   const queryParams = [];
-  // 2
+
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
   JOIN property_reviews ON properties.id = property_id
   `;
 
-  // 3
+
   if (options.city) {
     queryParams.push(`%${options.city}%`);
     queryString += `WHERE city LIKE $${queryParams.length} `;
@@ -167,8 +146,6 @@ exports.getAllReservations = getAllReservations;
   }
 
  
-
-  // 4
   queryString += `
   GROUP BY properties.id`
   
@@ -183,21 +160,7 @@ exports.getAllReservations = getAllReservations;
   LIMIT $${queryParams.length};
   `;
 
-  // 5
-  // console.log(queryString, queryParams);
-
-  // 6
   return pool.query(queryString, queryParams).then((res) => res.rows);
-
-
-  // return pool
-  //   .query(`SELECT * FROM properties LIMIT $1`, [limit])
-  //   .then((result) => {
-  //     return(result.rows);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err.message);
-  //   });
 };
 exports.getAllProperties = getAllProperties;
 
@@ -221,10 +184,5 @@ const addProperty = function(property) {
   .catch((err) => {
     return null;
   });
-
-  // const propertyId = Object.keys(properties).length + 1;
-  // property.id = propertyId;
-  // properties[propertyId] = property;
-  // return Promise.resolve(property);
 }
 exports.addProperty = addProperty;
